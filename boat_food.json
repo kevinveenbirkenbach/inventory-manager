@@ -1,0 +1,38 @@
+[
+    {
+        "Product Name": "test",
+        "Quantity": "3",
+        "Expiry Date": "2023-07-12",
+        "Tags": "qewer,werer,werwe"
+    },
+    {
+        "Product Name": "324234",
+        "Quantity": "234234",
+        "Expiry Date": "2342342",
+        "Tags": "23423423"
+    },
+    {
+        "Product Name": "werwer",
+        "Quantity": "werwe",
+        "Expiry Date": "wer",
+        "Tags": "wer"
+    },
+    {
+        "Product Name": "34234",
+        "Quantity": "23423",
+        "Expiry Date": "23424",
+        "Tags": "2342342"
+    },
+    {
+        "Product Name": "23234",
+        "Quantity": "22342",
+        "Expiry Date": "2342342",
+        "Tags": "325234"
+    },
+    {
+        "Product Name": "3rwerw",
+        "Quantity": "132132",
+        "Expiry Date": "3413242",
+        "Tags": "1343142"
+    }
+]

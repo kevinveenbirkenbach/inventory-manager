@@ -1,38 +1,35 @@
-import csv
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from csv import DictWriter
 import pandas as pd
 from pandastable import Table, TableModel
+import json
 
 # Main Window
 window = tk.Tk()
 window.title("Boat Food Inventory Manager")
 
 data_frame = pd.DataFrame(columns=['Product Name', 'Quantity', 'Expiry Date', 'Tags'])
-table_model = TableModel(data_frame)
 
 def add_entry():
+    global data_frame
     name = simpledialog.askstring("Product Name", "Enter the product name")
     quantity = simpledialog.askstring("Quantity", "Enter the quantity")
     expiry_date = simpledialog.askstring("Expiry Date", "Enter the expiry date (YYYY-MM-DD)")
-    tags = simpledialog.askstring("Tags", "Enter the tags")
-    
-    with open('boat_food.csv', 'a+', newline='') as write_obj:
-        dictwriter_object = DictWriter(write_obj, fieldnames=['Product Name', 'Quantity', 'Expiry Date', 'Tags'])
-        if write_obj.tell() == 0:
-            dictwriter_object.writeheader()
-        dictwriter_object.writerow({'Product Name': name, 'Quantity': quantity, 'Expiry Date': expiry_date, 'Tags': tags})
+    tags = simpledialog.askstring("Tags", "Enter the tags separated by comma without spaces")
+
+    data_frame.loc[len(data_frame)] = [name, quantity, expiry_date, tags]
+    save_changes()
     load_table()
 
 def load_table():
     global data_frame
-    global table_model
     for widget in table_frame.winfo_children():
         widget.destroy()
 
     try:
-        data_frame = pd.read_csv('boat_food.csv')
+        with open('boat_food.json') as json_file:
+            data = json.load(json_file)
+        data_frame = pd.DataFrame(data)
         table_model = TableModel(data_frame)
         table = Table(table_frame, dataframe=data_frame, model=table_model, showtoolbar=True, showstatusbar=True)
         table.show()
@@ -41,12 +38,14 @@ def load_table():
 
 def save_changes():
     global data_frame
-    data_frame.to_csv('boat_food.csv', index=False)
+    data = data_frame.to_dict(orient='records')
+    with open('boat_food.json', 'w') as json_file:
+        json.dump(data, json_file, indent=4)
     messagebox.showinfo("Save Success", "The changes have been successfully saved.")
 
 def delete_entry():
-    del_product = simpledialog.askstring("Product Name", "Enter the name of the product to delete")
     global data_frame
+    del_product = simpledialog.askstring("Product Name", "Enter the name of the product to delete")
     data_frame = data_frame[data_frame['Product Name'] != del_product]
     save_changes()
     load_table()
