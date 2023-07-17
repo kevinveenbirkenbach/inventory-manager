@@ -16,6 +16,7 @@ class View(QtWidgets.QWidget):
         self.table.setColumnCount(7)
         self.table.setHorizontalHeaderLabels(['UUID', 'Product Name', 'Quantity', 'Expiry Date', 'Location', 'Tags', 'Delete'])
         self.table.itemChanged.connect(self.edit_entry)
+        self.table.setItemDelegateForColumn(2, IntegerDelegate(self))
 
     def show_table(self, data_frame):
         self.table.setRowCount(0)
@@ -51,3 +52,12 @@ class View(QtWidgets.QWidget):
 
     def edit_entry(self, item):
         self.editSignal.emit(item) 
+
+from PyQt5 import QtWidgets, QtCore, QtGui
+class IntegerDelegate(QtWidgets.QItemDelegate):
+    def createEditor(self, parent, option, index):
+        editor = QtWidgets.QLineEdit(parent)
+        reg_ex = QtCore.QRegExp("[0-9]+.?[0-9]{,2}")
+        input_validator = QtGui.QRegExpValidator(reg_ex, editor)
+        editor.setValidator(input_validator)
+        return editor
