@@ -23,9 +23,10 @@ class Controller:
         name, ok = self.view.get_text_input('Product Name', 'Enter the product name:')
         quantity, ok = self.view.get_text_input('Quantity', 'Enter the quantity:')
         expiry_date, ok = self.view.get_text_input('Expiry Date', 'Enter the expiry date (YYYY-MM-DD):')
+        location, ok = self.view.get_text_input('Location', 'Enter the location:')
         tags, ok = self.view.get_text_input('Tags', 'Enter the tags separated by comma without spaces:')
         if ok:
-            self.model.add_entry(name, quantity, expiry_date, tags)
+            self.model.add_entry(name, quantity, expiry_date, location, tags)
             self.model.save_changes()
             self.load_data()
 

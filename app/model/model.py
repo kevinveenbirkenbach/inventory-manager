@@ -5,16 +5,16 @@ import uuid
 
 class Model:
     def __init__(self):
-        self.data_frame = pd.DataFrame(columns=['uuid', 'name', 'quantity', 'expiry_date', 'tags'])
+        self.data_frame = pd.DataFrame(columns=['uuid', 'name', 'quantity', 'expiry_date', 'location', 'tags'])
         self.inventory_path = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'inventory.json')
 
-    def add_entry(self, name, quantity, expiry_date, tags):
+    def add_entry(self, name, quantity, expiry_date, location, tags):
         entry_id = str(uuid.uuid4())
         tags_list = [tag.strip() for tag in tags.split(',')]
-        self.data_frame.loc[len(self.data_frame)] = [entry_id, name, quantity, expiry_date, tags_list]
+        self.data_frame.loc[len(self.data_frame)] = [entry_id, name, quantity, expiry_date, location, tags_list]
 
     def delete_entry(self, entry_id):
-        self.data_frame = self.data_frame[self.data_frame['ID'] != entry_id]
+        self.data_frame = self.data_frame[self.data_frame['uuid'] != entry_id]
 
     def save_changes(self):
         data = self.data_frame.to_dict(orient='records')

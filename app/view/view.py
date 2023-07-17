@@ -16,8 +16,8 @@ class View(QtWidgets.QWidget):
         self.save_button = QtWidgets.QPushButton('Save Changes')
         self.layout.addWidget(self.save_button)
 
-        self.table.setColumnCount(6)
-        self.table.setHorizontalHeaderLabels(['UUID','Product Name', 'Quantity', 'Expiry Date', 'Tags', 'Delete'])
+        self.table.setColumnCount(7)
+        self.table.setHorizontalHeaderLabels(['UUID', 'Product Name', 'Quantity', 'Expiry Date', 'Location', 'Tags', 'Delete'])
 
     def show_table(self, data_frame):
         self.table.setRowCount(0)
@@ -32,7 +32,7 @@ class View(QtWidgets.QWidget):
                 self.table.setItem(row_index, column_index, item)
             delete_button = QtWidgets.QPushButton('Delete')
             delete_button.clicked.connect(lambda row=row_index: self.delete_entry(row))
-            self.table.setCellWidget(row_index, 5, delete_button)
+            self.table.setCellWidget(row_index, 6, delete_button)
 
     def get_text_input(self, title, message):
         text, ok = QtWidgets.QInputDialog.getText(self, title, message)
