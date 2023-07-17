@@ -12,6 +12,7 @@ class Controller:
         self.view.add_button['command'] = self.add_entry
         self.view.delete_button['command'] = self.delete_entry
         self.view.save_button['command'] = self.save_changes
+        self.view.reload_button['command'] = self.load_data
         self.load_data()
 
     def add_entry(self):
@@ -31,6 +32,7 @@ class Controller:
 
     def save_changes(self):
         self.model.save_changes()
+        self.load_data()
         messagebox.showinfo("Save Success", "The changes have been successfully saved.")
 
     def load_data(self):
