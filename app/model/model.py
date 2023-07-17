@@ -5,12 +5,13 @@ import uuid
 
 class Model:
     def __init__(self):
-        self.data_frame = pd.DataFrame(columns=['ID', 'Product Name', 'Quantity', 'Expiry Date', 'Tags'])
+        self.data_frame = pd.DataFrame(columns=['uuid', 'name', 'quantity', 'expiry_date', 'tags'])
         self.inventory_path = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'inventory.json')
 
     def add_entry(self, name, quantity, expiry_date, tags):
         entry_id = str(uuid.uuid4())
-        self.data_frame.loc[len(self.data_frame)] = [entry_id, name, quantity, expiry_date, tags]
+        tags_list = [tag.strip() for tag in tags.split(',')]
+        self.data_frame.loc[len(self.data_frame)] = [entry_id, name, quantity, expiry_date, tags_list]
 
     def delete_entry(self, entry_id):
         self.data_frame = self.data_frame[self.data_frame['ID'] != entry_id]
