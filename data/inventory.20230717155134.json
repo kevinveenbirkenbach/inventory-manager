@@ -1,0 +1,22 @@
+[
+    {
+        "uuid": "1a85ad9e-6530-41fa-bc62-82bc2100fe2c",
+        "name": "werewr",
+        "quantity": "werwer",
+        "expiry_date": "werwer",
+        "location": "werwer",
+        "tags": [
+            "werwer"
+        ]
+    },
+    {
+        "uuid": "615d54f3-6331-42ba-9cb4-e52e4b21e00e",
+        "name": "",
+        "quantity": "",
+        "expiry_date": "",
+        "location": "",
+        "tags": [
+            ""
+        ]
+    }
+]
