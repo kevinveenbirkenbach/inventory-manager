@@ -15,7 +15,6 @@ class Controller:
         self.view.add_button.clicked.connect(self.add_entry)
         self.view.delete_button.clicked.connect(self.delete_entry)
         self.view.save_button.clicked.connect(self.save_changes)
-        self.view.reload_button.clicked.connect(self.load_data)
 
         self.load_data()
 

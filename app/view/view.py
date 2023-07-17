@@ -21,9 +21,6 @@ class View(QtWidgets.QWidget):
         self.save_button = QtWidgets.QPushButton('Save Changes')
         self.layout.addWidget(self.save_button)
 
-        self.reload_button = QtWidgets.QPushButton('Reload Inventory')
-        self.layout.addWidget(self.reload_button)
-
     def show_table(self, data_frame):
         self.table.setRowCount(0)
         self.table.setColumnCount(len(data_frame.columns))
