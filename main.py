@@ -9,6 +9,9 @@ from pandastable import Table, TableModel
 window = tk.Tk()
 window.title("Boat Food Inventory Manager")
 
+data_frame = pd.DataFrame(columns=['Product Name', 'Quantity', 'Expiry Date', 'Tags'])
+table_model = TableModel(data_frame)
+
 def add_entry():
     name = simpledialog.askstring("Product Name", "Enter the product name")
     quantity = simpledialog.askstring("Quantity", "Enter the quantity")
@@ -23,29 +26,29 @@ def add_entry():
     load_table()
 
 def load_table():
+    global data_frame
+    global table_model
     for widget in table_frame.winfo_children():
         widget.destroy()
 
     try:
         data_frame = pd.read_csv('boat_food.csv')
-        table = Table(table_frame, dataframe=data_frame, showtoolbar=True, showstatusbar=True)
+        table_model = TableModel(data_frame)
+        table = Table(table_frame, dataframe=data_frame, model=table_model, showtoolbar=True, showstatusbar=True)
         table.show()
     except FileNotFoundError:
         pass
 
+def save_changes():
+    global data_frame
+    data_frame.to_csv('boat_food.csv', index=False)
+    messagebox.showinfo("Save Success", "The changes have been successfully saved.")
+
 def delete_entry():
     del_product = simpledialog.askstring("Product Name", "Enter the name of the product to delete")
-    lines = list()
-    with open('boat_food.csv', 'r') as readFile:
-        reader = csv.reader(readFile)
-        for row in reader:
-            lines.append(row)
-            for field in row:
-                if field == del_product:
-                    lines.remove(row)
-    with open('boat_food.csv', 'w') as writeFile:
-        writer = csv.writer(writeFile)
-        writer.writerows(lines)
+    global data_frame
+    data_frame = data_frame[data_frame['Product Name'] != del_product]
+    save_changes()
     load_table()
 
 # Button to add entries
@@ -55,6 +58,10 @@ add_button.pack()
 # Button to delete entries
 delete_button = tk.Button(window, text="Delete Entry", command=delete_entry)
 delete_button.pack()
+
+# Button to save changes
+save_button = tk.Button(window, text="Save Changes", command=save_changes)
+save_button.pack()
 
 # Table Frame
 table_frame = tk.Frame(window)
