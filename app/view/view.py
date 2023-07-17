@@ -13,9 +13,6 @@ class View(QtWidgets.QWidget):
         self.table = QtWidgets.QTableWidget()
         self.layout.addWidget(self.table)
 
-        self.add_button = QtWidgets.QPushButton('Add Entry')
-        self.layout.addWidget(self.add_button)
-
         self.table.setColumnCount(7)
         self.table.setHorizontalHeaderLabels(['UUID', 'Product Name', 'Quantity', 'Expiry Date', 'Location', 'Tags', 'Delete'])
         self.table.itemChanged.connect(self.edit_entry)
@@ -34,6 +31,10 @@ class View(QtWidgets.QWidget):
             delete_button = QtWidgets.QPushButton('Delete')
             delete_button.clicked.connect(lambda row=row_index: self.delete_entry(row))
             self.table.setCellWidget(row_index, 6, delete_button)
+            
+        if not all(self.table.item(self.table.rowCount() - 1, col).text().strip() == '' for col in range(self.table.columnCount())):
+            self.table.insertRow(self.table.rowCount())
+
 
     def get_text_input(self, title, message):
         text, ok = QtWidgets.QInputDialog.getText(self, title, message)

@@ -13,33 +13,31 @@ class Controller:
         self.view = View(self.window)
         self.view.controller = self  # Set the reference to the controller in the view
         self.window.setCentralWidget(self.view)
-
-        self.view.add_button.clicked.connect(self.add_entry)
         self.load_data()
         self.view.deleteSignal.connect(self.delete_entry)  # Connect the signal
         self.view.editSignal.connect(self.edit_entry)  # Connect the signal
 
     def edit_entry(self, item):
         row = item.row()
-        uuid = self.view.table.item(row, 0).text()
-        column = item.column()
-        value = item.text()
-        # Here you can update the specific cell in your model's DataFrame
-        self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, self.model.data_frame.columns[column]] = value
+        uuid_item = self.view.table.item(row, 0)
+        if row == self.view.table.rowCount() - 1:
+            self.add_entry(row);
+        else:
+            self.update_entry(item)    
         self.model.save_changes()
         self.load_data()
 
-
-    def add_entry(self):
-        name, ok = self.view.get_text_input('Product Name', 'Enter the product name:')
-        quantity, ok = self.view.get_text_input('Quantity', 'Enter the quantity:')
-        expiry_date, ok = self.view.get_text_input('Expiry Date', 'Enter the expiry date (YYYY-MM-DD):')
-        location, ok = self.view.get_text_input('Location', 'Enter the location:')
-        tags, ok = self.view.get_text_input('Tags', 'Enter the tags separated by comma without spaces:')
-        if ok:
-            self.model.add_entry(name, quantity, expiry_date, location, tags)
-            self.model.save_changes()
-            self.load_data()
+    def update_entry(self, item):
+        row = item.row()
+        uuid_item = self.view.table.item(row, 0)
+        uuid = uuid_item.text()
+        column = item.column()
+        value = item.text()
+        self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, self.model.data_frame.columns[column]] = value
+    
+    def add_entry(self,row):
+        values = [self.view.table.item(row, col).text() if self.view.table.item(row, col) else '' for col in range(self.view.table.columnCount())]
+        self.model.add_entry(*values[-5:])
 
     def delete_entry(self, row):
         uuid = self.view.table.item(row, 0).text()  # Fetch the UUID from the table
