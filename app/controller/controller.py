@@ -15,10 +15,19 @@ class Controller:
         self.window.setCentralWidget(self.view)
 
         self.view.add_button.clicked.connect(self.add_entry)
-        self.view.save_button.clicked.connect(self.save_changes)
-
         self.load_data()
         self.view.deleteSignal.connect(self.delete_entry)  # Connect the signal
+        self.view.editSignal.connect(self.edit_entry)  # Connect the signal
+
+    def edit_entry(self, item):
+        row = item.row()
+        uuid = self.view.table.item(row, 0).text()
+        column = item.column()
+        value = item.text()
+        # Here you can update the specific cell in your model's DataFrame
+        self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, self.model.data_frame.columns[column]] = value
+        self.model.save_changes()
+        self.load_data()
 
 
     def add_entry(self):
@@ -38,18 +47,14 @@ class Controller:
         self.model.save_changes()
         self.load_data()
 
-
-    def save_changes(self):
-        self.model.save_changes()
-        self.load_data()
-        self.view.show_message('Save Success', 'The changes have been successfully saved.')
-
     def load_data(self):
+        self.view.table.blockSignals(True)
         try:
             self.model.load_data()
             self.view.show_table(self.model.data_frame)
         except FileNotFoundError:
             pass
+        self.view.table.blockSignals(False) 
 
     def run(self):
         self.window.show()

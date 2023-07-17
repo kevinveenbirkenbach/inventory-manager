@@ -1,7 +1,9 @@
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtWidgets import QTableWidgetItem
 
 class View(QtWidgets.QWidget):
     deleteSignal = QtCore.pyqtSignal(int)
+    editSignal = QtCore.pyqtSignal(QTableWidgetItem) 
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -14,11 +16,9 @@ class View(QtWidgets.QWidget):
         self.add_button = QtWidgets.QPushButton('Add Entry')
         self.layout.addWidget(self.add_button)
 
-        self.save_button = QtWidgets.QPushButton('Save Changes')
-        self.layout.addWidget(self.save_button)
-
         self.table.setColumnCount(7)
         self.table.setHorizontalHeaderLabels(['UUID', 'Product Name', 'Quantity', 'Expiry Date', 'Location', 'Tags', 'Delete'])
+        self.table.itemChanged.connect(self.edit_entry)
 
     def show_table(self, data_frame):
         self.table.setRowCount(0)
@@ -48,3 +48,6 @@ class View(QtWidgets.QWidget):
 
     def delete_entry(self, row):
         self.deleteSignal.emit(row)  # Emit the signal
+
+    def edit_entry(self, item):
+        self.editSignal.emit(item) 
