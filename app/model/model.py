@@ -13,10 +13,10 @@ class Model:
 
     def save_changes(self):
         data = self.data_frame.to_dict(orient='records')
-        with open('boat_food.json', 'w') as json_file:
+        with open('../data/inventory.json', 'w') as json_file:
             json.dump(data, json_file, indent=4)
 
     def load_data(self):
-        with open('boat_food.json', 'r') as json_file:
+        with open('../data/inventory.json', 'r') as json_file:
             data = json.load(json_file)
         self.data_frame = pd.DataFrame(data)

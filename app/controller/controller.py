@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from model import Model
-from view import View
+from app.model.model import Model
+from app.view.view import View
 
 class Controller:
     def __init__(self):
