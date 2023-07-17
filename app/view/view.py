@@ -31,10 +31,9 @@ class View(QtWidgets.QWidget):
             delete_button = QtWidgets.QPushButton('Delete')
             delete_button.clicked.connect(lambda row=row_index: self.delete_entry(row))
             self.table.setCellWidget(row_index, 6, delete_button)
-            
-        if not all(self.table.item(self.table.rowCount() - 1, col).text().strip() == '' for col in range(self.table.columnCount())):
-            self.table.insertRow(self.table.rowCount())
 
+        # Always add an empty row at the end
+        self.table.insertRow(self.table.rowCount())
 
     def get_text_input(self, title, message):
         text, ok = QtWidgets.QInputDialog.getText(self, title, message)
