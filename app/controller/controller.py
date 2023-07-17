@@ -10,11 +10,31 @@ class Controller:
 
         self.model = Model(data_dir)
         self.view = View(self.window)
-        self.view.controller = self  # Set the reference to the controller in the view
+        self.view.controller = self  
         self.window.setCentralWidget(self.view)
         self.load_data()
-        self.view.deleteSignal.connect(self.delete_entry)  # Connect the signal
-        self.view.editSignal.connect(self.edit_entry)  # Connect the signal
+        self.view.deleteSignal.connect(self.delete_entry)
+        self.view.editSignal.connect(self.edit_entry)
+
+        # Connect new signals
+        self.view.incrementSignal.connect(self.increment_entry)
+        self.view.decrementSignal.connect(self.decrement_entry)
+
+    def increment_entry(self, row):
+        uuid = self.view.table.item(row, 0).text()  
+        quantity = self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, 'quantity']
+        self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, 'quantity'] = quantity.astype(int) + 1
+        self.model.save_changes()
+        self.load_data()
+
+    def decrement_entry(self, row):
+        uuid = self.view.table.item(row, 0).text()  
+        quantity = self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, 'quantity'].astype(int)
+        if quantity.iloc[0] > 0:
+            self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, 'quantity'] = quantity - 1
+            self.model.save_changes()
+            self.load_data()
+
 
     def edit_entry(self, item):
         row = item.row()
@@ -49,6 +69,7 @@ class Controller:
         self.view.table.blockSignals(True)
         try:
             self.model.load_data()
+            #self.model.data_frame['quantity'] = self.model.data_frame['quantity'].astype(int)
             self.view.show_table(self.model.data_frame)
         except FileNotFoundError:
             pass
