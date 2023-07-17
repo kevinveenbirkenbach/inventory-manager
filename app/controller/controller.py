@@ -1,15 +1,14 @@
 from PyQt5 import QtWidgets
-
 from app.model.model import Model
 from app.view.view import View
 
 class Controller:
-    def __init__(self):
+    def __init__(self, data_dir=None):
         self.app = QtWidgets.QApplication([])
         self.window = QtWidgets.QMainWindow()
-        self.window.setWindowTitle("Boat Food Inventory Manager")
+        self.window.setWindowTitle("Inventory Manager")
 
-        self.model = Model()
+        self.model = Model(data_dir)
         self.view = View(self.window)
         self.view.controller = self  # Set the reference to the controller in the view
         self.window.setCentralWidget(self.view)

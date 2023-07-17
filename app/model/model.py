@@ -6,10 +6,13 @@ import datetime
 import glob
 
 class Model:
-    def __init__(self):
+    def __init__(self, data_dir=None):
         self.data_frame = pd.DataFrame(columns=['uuid', 'name', 'quantity', 'expiry_date', 'location', 'tags'])
-        self.inventory_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'data')
-
+        if data_dir is None:
+            self.inventory_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'data')
+        else:
+            self.inventory_dir = data_dir
+            
     def add_entry(self, name, quantity, expiry_date, location, tags):
         entry_id = str(uuid.uuid4())
         tags_list = [tag.strip() for tag in tags.split(',')]
