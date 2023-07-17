@@ -8,9 +8,9 @@ This tool was written by Kevin Veen-Birkenbach. He can be contacted at kevin@vee
 
 This application would not have been possible without the help of Chat-GPT from OpenAI. You can find the three main conversations that led to the creation of this software in the links below:
 
-1. [Conversation 1](#)
-2. [Conversation 2](#)
-3. [Conversation 3](#)
+- https://chat.openai.com/share/a6def7f5-2b90-4cc8-af7f-c0c75aa55522
+- https://chat.openai.com/share/8f0e4cb3-7a45-46e4-8245-cfc1d5c222ed
+- https://chat.openai.com/share/9d77e8a9-bf58-4026-bc27-4aa5be3a7673
 
 ## Installation and Setup
 
@@ -47,10 +47,3 @@ The 'Inc' and 'Dec' buttons can be used to increase and decrease the quantity of
 ## License
 
 This software is distributed under the GNU Affero General Public License Version 3, 19 November 2007. Please see the LICENSE file for more information.
-
-## Acknowledgements
-
-This software was created with the help of Chat-GPT
-- https://chat.openai.com/share/a6def7f5-2b90-4cc8-af7f-c0c75aa55522
-- https://chat.openai.com/share/8f0e4cb3-7a45-46e4-8245-cfc1d5c222ed
-- https://chat.openai.com/share/9d77e8a9-bf58-4026-bc27-4aa5be3a7673
