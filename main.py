@@ -17,15 +17,19 @@ def add_entry():
     
     with open('boat_food.csv', 'a+', newline='') as write_obj:
         dictwriter_object = DictWriter(write_obj, fieldnames=['Product Name', 'Quantity', 'Expiry Date', 'Tags'])
+        if write_obj.tell() == 0:
+            dictwriter_object.writeheader()
         dictwriter_object.writerow({'Product Name': name, 'Quantity': quantity, 'Expiry Date': expiry_date, 'Tags': tags})
-        write_obj.close()
     load_table()
 
 def load_table():
+    for widget in table_frame.winfo_children():
+        widget.destroy()
+
     try:
         data_frame = pd.read_csv('boat_food.csv')
-        table = pt = Table(table_frame, dataframe=data_frame, showtoolbar=True, showstatusbar=True)
-        pt.show()
+        table = Table(table_frame, dataframe=data_frame, showtoolbar=True, showstatusbar=True)
+        table.show()
     except FileNotFoundError:
         pass
 
