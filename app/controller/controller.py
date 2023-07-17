@@ -35,9 +35,10 @@ class Controller:
         value = item.text()
         self.model.data_frame.loc[self.model.data_frame['uuid'] == uuid, self.model.data_frame.columns[column]] = value
     
-    def add_entry(self,row):
+    def add_entry(self, row):
         values = [self.view.table.item(row, col).text() if self.view.table.item(row, col) else '' for col in range(self.view.table.columnCount())]
-        self.model.add_entry(*values[-5:])
+        self.model.add_entry(*values[1:6])
+
 
     def delete_entry(self, row):
         uuid = self.view.table.item(row, 0).text()  # Fetch the UUID from the table
