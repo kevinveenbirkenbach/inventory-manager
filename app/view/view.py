@@ -1,6 +1,7 @@
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtCore
 
 class View(QtWidgets.QWidget):
+    deleteSignal = QtCore.pyqtSignal(int)
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -46,5 +47,4 @@ class View(QtWidgets.QWidget):
         msg_box.exec_()
 
     def delete_entry(self, row):
-        self.controller.delete_entry(row)
-
+        self.deleteSignal.emit(row)  # Emit the signal

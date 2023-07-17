@@ -18,6 +18,8 @@ class Controller:
         self.view.save_button.clicked.connect(self.save_changes)
 
         self.load_data()
+        self.view.deleteSignal.connect(self.delete_entry)  # Connect the signal
+
 
     def add_entry(self):
         name, ok = self.view.get_text_input('Product Name', 'Enter the product name:')
@@ -31,9 +33,11 @@ class Controller:
             self.load_data()
 
     def delete_entry(self, row):
-        self.model.delete_entry(row)
+        uuid = self.view.table.item(row, 0).text()  # Fetch the UUID from the table
+        self.model.delete_entry(uuid)
         self.model.save_changes()
         self.load_data()
+
 
     def save_changes(self):
         self.model.save_changes()
