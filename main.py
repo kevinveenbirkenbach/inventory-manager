@@ -16,7 +16,7 @@ def add_entry():
     quantity = simpledialog.askstring("Quantity", "Enter the quantity")
     expiry_date = simpledialog.askstring("Expiry Date", "Enter the expiry date (YYYY-MM-DD)")
     tags = simpledialog.askstring("Tags", "Enter the tags separated by comma without spaces")
-
+    
     data_frame.loc[len(data_frame)] = [name, quantity, expiry_date, tags]
     save_changes()
     load_table()
@@ -27,12 +27,13 @@ def load_table():
         widget.destroy()
 
     try:
-        with open('boat_food.json') as json_file:
+        with open('boat_food.json', 'r') as json_file:
             data = json.load(json_file)
         data_frame = pd.DataFrame(data)
         table_model = TableModel(data_frame)
         table = Table(table_frame, dataframe=data_frame, model=table_model, showtoolbar=True, showstatusbar=True)
         table.show()
+        window.update_idletasks()
     except FileNotFoundError:
         pass
 
