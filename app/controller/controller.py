@@ -11,10 +11,10 @@ class Controller:
 
         self.model = Model()
         self.view = View(self.window)
+        self.view.controller = self  # Set the reference to the controller in the view
         self.window.setCentralWidget(self.view)
 
         self.view.add_button.clicked.connect(self.add_entry)
-        self.view.delete_button.clicked.connect(self.delete_entry)
         self.view.save_button.clicked.connect(self.save_changes)
 
         self.load_data()
@@ -29,12 +29,10 @@ class Controller:
             self.model.save_changes()
             self.load_data()
 
-    def delete_entry(self):
-        del_product, ok = self.view.get_text_input('Product Name', 'Enter the name of the product to delete:')
-        if ok:
-            self.model.delete_entry(del_product)
-            self.model.save_changes()
-            self.load_data()
+    def delete_entry(self, row):
+        self.model.delete_entry(row)
+        self.model.save_changes()
+        self.load_data()
 
     def save_changes(self):
         self.model.save_changes()
