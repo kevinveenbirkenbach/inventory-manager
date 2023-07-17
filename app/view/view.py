@@ -1,6 +1,4 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QInputDialog, QMessageBox
-import pandas as pd
+from PyQt5 import QtWidgets, QtGui
 
 class View(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -28,4 +26,16 @@ class View(QtWidgets.QWidget):
         for i, row in data_frame.iterrows():
             self.table.insertRow(i)
             for j, cell in enumerate(row):
-                self.table.setItem(i, j, QtWidgets.QTableWidgetItem(str(cell)))
+                item = QtWidgets.QTableWidgetItem(str(cell))
+                self.table.setItem(i, j, item)
+
+    def get_text_input(self, title, message):
+        text, ok = QtWidgets.QInputDialog.getText(self, title, message)
+        return text, ok
+
+    def show_message(self, title, message):
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.exec_()

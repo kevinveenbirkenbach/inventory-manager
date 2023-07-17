@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+
 from app.model.model import Model
 from app.view.view import View
 
